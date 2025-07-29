@@ -40,14 +40,14 @@ Tokens construídos sobre **proxy patterns** (como `TransparentUpgradeableProxy`
 ## 🛠️ Estrutura do Projeto
 
 ```bash
-├── token_scanner.py             # Busca tokens em DEXs/fábricas (UniswapV2, PancakeSwap, etc.)
+├── token_hunter.py             # Busca tokens em DEXs/fábricas (UniswapV2, PancakeSwap, etc.)
 ├── token_checker_migration.py   # Valida se os tokens são vulneráveis a hijack
-├── tokens_found.json            # Tokens encontrados no scanner
-├── tokens_vulnerables.json      # Tokens confirmadamente vulneráveis
-├── executor/                    # Scripts para execução DeFi (em desenvolvimento)
+├── tokens_found.json            # Tokens encontrados no scanner (gerado pelo token_hunter.py)
+├── tokens_vulnerables.json      # Tokens confirmadamente vulneráveis (gerado pelo token_checker_migration.py)
+├── executor/                    # Scripts para execução DeFi (em desenvolvimento, porém não será postado por motivos de segurança!)
 │   └── dsproxy_attack.py        # Exemplo de ataque via DSProxy (DeFi Saver)
 ├── contracts/
-│   └── MaliciousImplementation.sol  # Contrato para hijack (substitui implementação legítima)
+│   └── MaliciousImplementation.sol  # Contrato para hijack (substitui implementação legítima, porém não será postado por motivos de segurança!)
 ├── .env                         # Contém sua chave privada e provider URL
 
 
