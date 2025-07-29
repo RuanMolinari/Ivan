@@ -34,10 +34,15 @@ Embora este projeto seja apenas educacional, ele explora o vetor Token Migration
 📁 Estrutura do Projeto
 
 ivan-rds220/
+
 ├── token_hunter.py            # Scanner de tokens
+
 ├── token_checker_migration.py # Scanner de vulnerabilidades
-├── tokens_found.json          # Tokens detectados
-├── tokens_vulnerables.json    # Tokens vulneráveis identificados
+
+├── tokens_found.json          # Tokens detectados (gerado pelo token_hunter.py)
+
+├── tokens_vulnerables.json    # Tokens vulneráveis identificados (gerado pelo token_checker_migration.py)
+
 ├── README.md
 
 ⚠️ Aviso Legal
