@@ -1,116 +1,50 @@
-# 💣 Ivan — Token Vulnerability Scanner & Exploiter
+🧨 Projeto Ivan (RDS-220)
+Scanner de Tokens + Scanner de Vulnerabilidades (Token Migration Hijack)
 
-> Nomeado em homenagem à **Tsar Bomba**, o projeto **Ivan** é uma estrutura modular para **detecção e exploração automatizada de vulnerabilidades críticas em tokens ERC20/Proxy via DeFi**, com foco em **Token Migration Hijack** e execução potencial via **flash loans e automação DeFi**.
+"Inspirado na bomba mais poderosa já criada, Ivan é um projeto que detecta alvos com precisão e revela falhas críticas no ecossistema DeFi."
 
----
+🔍 Visão Geral
+O Projeto Ivan é uma ferramenta dupla composta por:
 
-## ⚠️ Aviso Legal
+Token Hunter: Scanner que varre DEXs em busca de tokens recentes e potencialmente vulneráveis com base em liquidez baixa.
 
-Este projeto tem **fins exclusivamente educacionais e de pesquisa de segurança**.  
-**Nunca utilize em contratos reais sem autorização.**  
-Abusos podem configurar crime. Responsabilize-se eticamente.
+Token Checker: Validador que analisa tokens identificados e detecta se são vulneráveis ao ataque de Token Migration Hijack, uma falha crítica em contratos proxy upgradeáveis.
 
----
+🛠️ Funcionalidades
+🔹 Scanner de Tokens
+Consulta diversas DEXs (Uniswap, PancakeSwap, etc.).
 
-## 🧠 Visão Geral
+Detecta tokens novos com base em pools pequenos (potencial alvo de exploits).
 
-**Ivan** é dividido em 3 componentes:
+Armazena os tokens encontrados em tokens_found.json.
 
-1. **Scanner de tokens (`token_scanner.py`)**  
-   🔎 Explora diversas DEXs e fábricas de contratos para identificar tokens que utilizam padrões proxies (ERC1967, UUPS, etc.).
+🔹 Scanner de Vulnerabilidades
+Lê os tokens detectados pelo Token Hunter.
 
-2. **Validador de vulnerabilidades (`token_checker_migration.py`)**  
-   🛠️ Verifica se os contratos encontrados têm funções críticas acessíveis (`upgradeTo`, `migrate`, etc.) controladas diretamente por um owner externo.
+Verifica presença de funções sensíveis: upgradeTo, upgrade, migrate.
 
-3. **Executor DeFi (em desenvolvimento)**  
-   ⚙️ Monta um ataque via **DSProxy** (DeFi Saver), simulando execução automatizada através de **flash loans** e bundles DeFi.
+Detecta contratos com owner ainda ativo e permissões de atualização.
 
----
+Gera tokens_vulnerables.json.
 
-## 🧬 Vulnerabilidade: Token Migration Hijack
-
-Tokens construídos sobre **proxy patterns** (como `TransparentUpgradeableProxy` ou `ERC1967`) podem ser vulneráveis se:
-
-- O owner do contrato não estiver renunciado.
-- As funções `upgradeTo`, `migrate`, `upgrade`, etc., estiverem **publicamente expostas**.
-- A nova implementação puder ser maliciosa (reentrância, rug pull, dreno de fundos).
-
----
-
-## 🛠️ Estrutura do Projeto
-
-```bash
-├── token_hunter.py             # Busca tokens em DEXs/fábricas (UniswapV2, PancakeSwap, etc.)
-├── token_checker_migration.py   # Valida se os tokens são vulneráveis a hijack
-├── tokens_found.json            # Tokens encontrados no scanner (gerado pelo token_hunter.py)
-├── tokens_vulnerables.json      # Tokens confirmadamente vulneráveis (gerado pelo token_checker_migration.py)
-├── executor/                    # Scripts para execução DeFi (em desenvolvimento, porém não será postado por motivos de segurança!)
-│   └── dsproxy_attack.py        # Exemplo de ataque via DSProxy (DeFi Saver)
-├── contracts/
-│   └── MaliciousImplementation.sol  # Contrato para hijack (substitui implementação legítima, porém não será postado por motivos de segurança!)
-├── .env                         # Contém sua chave privada e provider URL
+💥 Estratégia de Ataque (Estudo Experimental)
+Embora este projeto seja apenas educacional, ele explora o vetor Token Migration Hijack, que pode permitir controle total do contrato caso certas funções não estejam protegidas.
 
 
-🚀 Como Usar
-1. Configure o ambiente
+📁 Estrutura do Projeto
 
-git clone https://github.com/seuusuario/ivan.git
-cd ivan
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-Crie um arquivo .env com:
+ivan-rds220/
+├── token_hunter.py            # Scanner de tokens
+├── token_checker_migration.py # Scanner de vulnerabilidades
+├── tokens_found.json          # Tokens detectados
+├── tokens_vulnerables.json    # Tokens vulneráveis identificados
+├── README.md
 
-PRIVATE_KEY=0x...
-RPC_URL=https://...
+⚠️ Aviso Legal
+Este projeto é para fins educacionais e de pesquisa de segurança. Não incentive nem apoie o uso para atividades maliciosas. O uso indevido pode ser crime.
 
-2. Execute o Scanner
-
-python token_scanner.py
-Resultado: tokens_found.json
-
-3. Verifique vulnerabilidades
-
-python token_checker_migration.py
-Resultado: tokens_vulnerables.json
-
-4. (Opcional) Ataque simulado
-Em desenvolvimento
-
-python executor/dsproxy_attack.py
-
-🧪 Teste e Simulação
-Você pode simular o ataque com tokens na Goerli ou Sepolia Testnet, modificando os contratos para representar proxies vulneráveis.
-
-📌 Requisitos Técnicos
-
-Python 3.10+
-
-Web3.py
-
-dotenv
-
-Acesso a um nó RPC confiável (Alchemy, Infura, etc.)
-
-Chave privada para simulações
-
-Conhecimento básico de contratos inteligentes
-
-👨‍💻 Contribuindo
-
-Pull requests são bem-vindos!
-Ideias para novos scanners (reentrância, fee drain, honeypots) também.
-
-🧠 Inspirado por:
-
-Furucombo
-
-DeFi Saver
-
-OpenZeppelin Proxy Patterns
-
-Real-world DeFi exploits
-
-🧨 Nome: Ivan
-O projeto recebe seu nome em referência à Tsar Bomba, a maior bomba nuclear já detonada, codinome "Ivan", refletindo o potencial devastador de falhas de segurança ignoradas em contratos DeFi.
+🧠 Autor
+Ruan Vinicius dos Anjos Molinari
+💼 Pesquisador em segurança blockchain, MEV e arbitragem.
+🚀 Em busca de vulnerabilidades esquecidas no espaço DeFi.
 
